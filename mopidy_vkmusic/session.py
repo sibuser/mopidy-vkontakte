@@ -1,0 +1,172 @@
+from __future__ import unicode_literals
+
+import logging
+
+import os
+import sys
+import json
+import time
+import urllib
+import shelve
+import urllib2
+import cookielib
+
+from urllib import urlencode
+from urlparse import urlparse
+from HTMLParser import HTMLParser
+
+logger = logging.getLogger('mopidy.backends.vkmusic.session')
+
+class FormParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.url = None
+        self.params = {}
+        self.in_form = False
+        self.form_parsed = False
+        self.method = "GET"
+
+    def handle_starttag(self, tag, attrs):
+        tag = tag.lower()
+        if tag == "form":
+            if self.form_parsed:
+                raise RuntimeError("Second form on page")
+            if self.in_form:
+                raise RuntimeError("Already in form")
+            self.in_form = True
+        if not self.in_form:
+            return
+        attrs = dict((name.lower(), value) for name, value in attrs)
+        if tag == "form":
+            self.url = attrs["action"]
+            if "method" in attrs:
+                self.method = attrs["method"].upper()
+        elif tag == "input" and "type" in attrs and "name" in attrs:
+            if attrs["type"] in ["hidden", "text", "password"]:
+                self.params[attrs["name"]] = attrs["value"] if "value" in attrs else ""
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+        if tag == "form":
+            if not self.in_form:
+                raise RuntimeError("Unexpected end of <form>")
+            self.in_form = False
+            self.form_parsed = True
+
+class VKSession(object):
+    def __init__(self, config=None):
+        super(VKSession, self).__init__()
+
+        self.config = config
+
+        self.email = self.config['vkmusic']['email']
+        self.password = self.config['vkmusic']['password']
+        self.client_id = self.config['vkmusic']['client_id']
+        self.user_id, self.token, self.expires = self.load_session()
+
+        self.playlist = None
+        self.login()
+        logger.info('Mopidy uses Vkontakte Music')
+
+    # Authorization form
+    def login(self):
+        logger.info('Login as "%s"', self.email)
+
+        opener = urllib2.build_opener(
+            urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
+            urllib2.HTTPRedirectHandler())
+        print (
+            "http://oauth.vk.com/oauth/authorize?" + \
+            "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
+            "client_id=%s&scope=audio&display=wap" % (self.client_id)
+            )
+        response = opener.open(
+            "http://oauth.vk.com/oauth/authorize?" + \
+            "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
+            "client_id=%s&scope=audio&display=wap" % (self.client_id)
+            )
+
+        doc = response.read()
+        parser = FormParser()
+        parser.feed(doc)
+        parser.close()
+        parser.params["email"] = self.email
+        parser.params["pass"] = self.password
+        response = opener.open(parser.url, urllib.urlencode(parser.params))
+        doc, url = response.read(), response.geturl()
+
+        if urlparse(url).path != "/blank.html":
+            url = self.give_access(doc, opener)
+
+        answer = dict(self.split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split("&"))
+        self.token, self.user_id = answer["access_token"], answer["user_id"]
+        self.save_session()
+
+
+    def get_all_songs(self):
+        return  self.call_api("audio.get", [("uid", self.user_id)], self.token)
+
+    def split_key_value(self, kv_pair):
+        kv = kv_pair.split("=")
+        return kv[0], kv[1]
+
+    def call_api(self, method, params, token):
+        params.append(("access_token", self.token))
+        url = "https://api.vk.com/method/%s?%s" % (method, urlencode(params))
+        return json.loads(urllib2.urlopen(url).read())["response"]
+
+    # Permission request form
+    def give_access(self, doc, opener):
+        parser = FormParser()
+        parser.feed(doc)
+        parser.close()
+
+        response = opener.open(parser.url, urllib.urlencode(parser.params))
+        return response.geturl()
+
+
+    def config_dir_check(self):
+        self.config_dir_path = os.environ['HOME'] + '/.config/mopidy'
+        if os.access(self.config_dir_path, os.F_OK):
+            return True
+        else:
+            os.mkdir(self.config_dir_path)
+            return False
+
+
+    def config_file_check(self, config_file_path, mode):
+        if not self.config_dir_check():
+            return False
+        if os.access(config_file_path, mode):
+            return True
+        else:
+            return False
+
+
+    def check_session(self, expires):
+        if not self.expires or self.expires - time.time() < 0:
+                return False
+        else:
+            return expires
+
+    def load_session(self):
+        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
+        if self.config_file_check(sessionPath, os.R_OK):
+            s = shelve.open(sessionPath, 'r')
+
+            token = s.get('token', None)
+            user_id = s.get('user_id', None)
+            expires = self.checkSession(s.get('expires', 0))
+
+            s.close()
+            return  user_id, token, expires
+        else:
+            return None, None, 0
+
+    def save_session(self, **kwarg):
+        self.config_dir_check()
+        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
+        s = shelve.open(sessionPath, 'n')
+        for i in kwarg:
+            s[i] = kwarg[i]
+        s.close()

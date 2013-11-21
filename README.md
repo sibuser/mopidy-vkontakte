@@ -1,4 +1,0 @@
-mopidy-vkmusic
-==============
-
-Mopidy-VKontakteMusic
