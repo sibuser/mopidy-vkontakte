@@ -17,7 +17,8 @@ setup(
     license='Apache License, Version 2.0',
     author='Alexey Ulyanov',
     author_email='sibuser.nsk@gmail.com',
-    description='Mopidy extension for VKMusic allows to listen to music from VKontakte social network."',
+    description='Mopidy extension for VKMusic allows \
+        to listen to music from VKontakte social network.',
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests', 'tests.*']),
     zip_safe=False,

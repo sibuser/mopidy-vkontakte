@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import logging
 
 from mopidy.backends import base
-from mopidy.models import SearchResult
+# from mopidy.models import SearchResult
 
 logger = logging.getLogger('mopidy.backends.vkmusic.library')
 

@@ -8,7 +8,8 @@ __doc__ = """An extension for playing music from VKontakte.
 
 This extension enables you to play music from VKontakte web service.
 
-See https://github.com/sibuser/mopidy-vkmusic for further instructions on using this extension.
+See https://github.com/sibuser/mopidy-vkmusic for further instructions
+of using this extension.
 
 **Issues:**
 
@@ -16,7 +17,7 @@ https://github.com/sibuser/mopidy-vkmusic/issues
 
 """
 
-__version__ = '0.1.0'
+__version__ = '0.1.08'
 
 
 class Extension(ext.Extension):
@@ -28,9 +29,6 @@ class Extension(ext.Extension):
     def get_default_config(self):
         conf_file = os.path.join(os.path.dirname(__file__), 'ext.conf')
         return config.read(conf_file)
-
-    def get_config_schema(self):
-        schema = super(Extension, self).get_config_schema()
 
     def get_config_schema(self):
         schema = super(Extension, self).get_config_schema()
