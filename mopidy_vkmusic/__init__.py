@@ -43,7 +43,7 @@ class Extension(ext.Extension):
     def validate_config(self, config):
         if not config.getboolean('vkmusic', 'enabled'):
             return
- 
+
     def get_backend_classes(self):
         from .actor import VKBackend
         return [VKBackend]
