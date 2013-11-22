@@ -2,7 +2,8 @@ from __future__ import unicode_literals
 
 import unittest
 
-from mopidy_vkmusic import Extension, frontend as frontend_lib
+from mopidy_vkmusic import Extension,
+# frontend as frontend_lib
 
 
 class ExtensionTest(unittest.TestCase):
