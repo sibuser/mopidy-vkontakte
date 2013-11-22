@@ -38,8 +38,19 @@ Configuration
 Before starting Mopidy, you must add configuration for
 Mopidy-VKMusic to your Mopidy configuration file::
 
+#. You must register for a user account at http://www.vk.com/
+
+#. Add the email and password to the ``mopidy.conf`` config file::
+
+#. Hence VKontakte has only one playlist you can add and remove songs only from it.
+
+
+
     [vkmusic]
-    # TODO: Add example of extension config
+    email    = your_email@maild_domen.com or phone number
+    password = secret
+    client_id = optional
+
 
 
 Project resources
