@@ -38,6 +38,11 @@ Configuration
 Before starting Mopidy, you must add configuration for
 Mopidy-VKMusic to your Mopidy configuration file::
 
+    [vkmusic]
+    email    = your_email@maild_domen.com or phone number
+    password = secret
+    client_id = optional
+
 #. You must register for a user account at http://www.vk.com/
 
 #. Add the email and password to the ``mopidy.conf`` config file::
@@ -46,10 +51,6 @@ Mopidy-VKMusic to your Mopidy configuration file::
 
 
 
-    [vkmusic]
-    email    = your_email@maild_domen.com or phone number
-    password = secret
-    client_id = optional
 
 
 
