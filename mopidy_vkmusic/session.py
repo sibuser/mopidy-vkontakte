@@ -24,32 +24,32 @@ class FormParser(HTMLParser):
         self.params = {}
         self.in_form = False
         self.form_parsed = False
-        self.method = "GET"
+        self.method = 'GET'
 
     def handle_starttag(self, tag, attrs):
         tag = tag.lower()
-        if tag == "form":
+        if tag == 'form':
             if self.form_parsed:
-                raise RuntimeError("Second form on page")
+                raise RuntimeError('Second form on page')
             if self.in_form:
-                raise RuntimeError("Already in form")
+                raise RuntimeError('Already in form')
             self.in_form = True
         if not self.in_form:
             return
         attrs = dict((name.lower(), value) for name, value in attrs)
-        if tag == "form":
-            self.url = attrs["action"]
-            if "method" in attrs:
-                self.method = attrs["method"].upper()
-        elif tag == "input" and "type" in attrs and "name" in attrs:
-            if attrs["type"] in ["hidden", "text", "password"]:
-                self.params[attrs["name"]] = attrs["value"] if "value" in attrs else ""
+        if tag == 'form':
+            self.url = attrs['action']
+            if 'method' in attrs:
+                self.method = attrs['method'].upper()
+        elif tag == 'input' and 'type' in attrs and 'name' in attrs:
+            if attrs['type'] in ['hidden', 'text', 'password']:
+                self.params[attrs['name']] = attrs['value'] if 'value' in attrs else ''
 
     def handle_endtag(self, tag):
         tag = tag.lower()
-        if tag == "form":
+        if tag == 'form':
             if not self.in_form:
-                raise RuntimeError("Unexpected end of <form>")
+                raise RuntimeError('Unexpected end of <form>')
             self.in_form = False
             self.form_parsed = True
 
@@ -72,45 +72,45 @@ class VKSession(object):
 
     # Authorization form
     def login(self):
-        logger.info('Login as "%s"', self.email)
+        logger.info('Login as '%s'', self.email)
 
         opener = urllib2.build_opener(
             urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
             urllib2.HTTPRedirectHandler())
 
         response = opener.open(
-            "http://oauth.vk.com/oauth/authorize?" + \
-            "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
-            "client_id=%s&scope=audio&display=wap" % (self.client_id)
+            'http://oauth.vk.com/oauth/authorize?' + \
+            'redirect_uri=http://oauth.vk.com/blank.html&response_type=token&' + \
+            'client_id=%s&scope=audio&display=wap' % (self.client_id)
             )
 
         doc = response.read()
         parser = FormParser()
         parser.feed(doc)
         parser.close()
-        parser.params["email"] = self.email
-        parser.params["pass"] = self.password
+        parser.params['email'] = self.email
+        parser.params['pass'] = self.password
         response = opener.open(parser.url, urllib.urlencode(parser.params))
         doc, url = response.read(), response.geturl()
 
-        if urlparse(url).path != "/blank.html":
+        if urlparse(url).path != '/blank.html':
             url = self.give_access(doc, opener)
 
-        answer = dict(self.split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split("&"))
+        answer = dict(self.split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split('&'))
         self.token, self.user_id, self.expires_in = answer['access_token'], answer['user_id'], answer['expires_in']
 
 
     def get_all_songs(self):
-        return  self.call_api("audio.get", [("uid", self.user_id)], self.token)
+        return  self.call_api('audio.get', [('uid', self.user_id)], self.token)
 
     def split_key_value(self, kv_pair):
-        kv = kv_pair.split("=")
+        kv = kv_pair.split('=')
         return kv[0], kv[1]
 
     def call_api(self, method, params, token):
-        params.append(("access_token", self.token))
-        url = "https://api.vk.com/method/%s?%s" % (method, urlencode(params))
-        return json.loads(urllib2.urlopen(url).read())["response"]
+        params.append(('access_token', self.token))
+        url = 'https://api.vk.com/method/%s?%s' % (method, urlencode(params))
+        return json.loads(urllib2.urlopen(url).read())['response']
 
     # Permission request form
     def give_access(self, doc, opener):

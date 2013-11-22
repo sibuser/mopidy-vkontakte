@@ -35,7 +35,7 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
 
         self.backend.session.get_all_songs()
         if uri:
-            logger.info('Fetching Explore playlist %s from VKontakte' % uri)
+            logger.info('Fetching a playlist %s from VKontakte' % uri)
 
             tracks = []
 
