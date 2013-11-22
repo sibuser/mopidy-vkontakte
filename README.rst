@@ -64,6 +64,11 @@ Project resources
 Changelog
 =========
 
+v0.1.1 (UNRELEASED)
+----------------------------------------
+
+- Code style fixed. Setup a test cover system.
+
 v0.1.0 (UNRELEASED)
 ----------------------------------------
 
