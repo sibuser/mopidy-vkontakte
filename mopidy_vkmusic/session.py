@@ -6,8 +6,8 @@ import os
 import sys
 import json
 import time
-import urllib
 import shelve
+import urllib
 import urllib2
 import cookielib
 
@@ -62,10 +62,12 @@ class VKSession(object):
         self.email = self.config['vkmusic']['email']
         self.password = self.config['vkmusic']['password']
         self.client_id = self.config['vkmusic']['client_id']
-        self.user_id, self.token, self.expires = self.load_session()
+        self.user_id, self.token, self.expires_in = self.load_session()
 
         self.playlist = None
-        self.login()
+        if self.expires_in == 0:
+            self.login()
+            self.save_session()
         logger.info('Mopidy uses Vkontakte Music')
 
     # Authorization form
@@ -75,11 +77,7 @@ class VKSession(object):
         opener = urllib2.build_opener(
             urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
             urllib2.HTTPRedirectHandler())
-        print (
-            "http://oauth.vk.com/oauth/authorize?" + \
-            "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
-            "client_id=%s&scope=audio&display=wap" % (self.client_id)
-            )
+
         response = opener.open(
             "http://oauth.vk.com/oauth/authorize?" + \
             "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
@@ -99,8 +97,7 @@ class VKSession(object):
             url = self.give_access(doc, opener)
 
         answer = dict(self.split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split("&"))
-        self.token, self.user_id = answer["access_token"], answer["user_id"]
-        self.save_session()
+        self.token, self.user_id, self.expires_in = answer['access_token'], answer['user_id'], answer['expires_in']
 
 
     def get_all_songs(self):
@@ -143,30 +140,30 @@ class VKSession(object):
             return False
 
 
-    def check_session(self, expires):
-        if not self.expires or self.expires - time.time() < 0:
-                return False
+    def check_session(self, expires_in):
+        if expires_in == 0 or expires_in - time.time() < 0:
+                return 0
         else:
-            return expires
+            return expires_in
 
     def load_session(self):
         sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
         if self.config_file_check(sessionPath, os.R_OK):
             s = shelve.open(sessionPath, 'r')
-
-            token = s.get('token', None)
-            user_id = s.get('user_id', None)
-            expires = self.checkSession(s.get('expires', 0))
-
+            token   = s.get('token'.encode('utf-8'), None)
+            user_id = s.get('user_id'.encode('utf-8'), None)
+            expires_in = s.get('expires_in'.encode('utf-8'), 0)
             s.close()
-            return  user_id, token, expires
+            return  user_id, token, expires_in
         else:
             return None, None, 0
 
-    def save_session(self, **kwarg):
+    def save_session(self):
         self.config_dir_check()
         sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
-        s = shelve.open(sessionPath, 'n')
-        for i in kwarg:
-            s[i] = kwarg[i]
+        s = shelve.open(sessionPath, 'c')
+        s['token'.encode('utf-8')]   = self.token.encode('utf-8')
+        s['user_id'.encode('utf-8')] = self.user_id.encode('utf-8')
+        s['expires_in'.encode('utf-8')] = int(self.expires_in.decode('utf-8')) + time.time()
+
         s.close()
