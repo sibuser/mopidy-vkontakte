@@ -2,8 +2,7 @@ from __future__ import unicode_literals
 
 import unittest
 
-from mopidy_vkmusic import Extension,
-# frontend as frontend_lib
+from mopidy_vkmusic import Extension, actor as backend_lib
 
 
 class ExtensionTest(unittest.TestCase):
@@ -23,3 +22,10 @@ class ExtensionTest(unittest.TestCase):
 
         self.assertIn('email', schema)
         self.assertIn('password', schema)
+
+    def test_get_backend_classes(self):
+        ext = Extension()
+
+        backends = ext.get_backend_classes()
+
+        self.assertIn(backend_lib.VKBackend, backends)
