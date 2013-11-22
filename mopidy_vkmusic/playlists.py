@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import logging
 
 from mopidy.backends import base, listener
-from mopidy.models import Playlist, Track
+from mopidy.models import Playlist, Track, Artist
 
 logger = logging.getLogger('mopidy.backends.vkmusic.playlists')
 
@@ -26,8 +26,8 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
         return Track(
             uri=song['url'],
             name=song['title'],
-            # artists=song['artist'].encode('utf-8'),
-            length=int(song['duration']),
+            artists=[Artist(name=song['artist'].encode('utf-8'))],
+            length=int(song['duration']) * 1000,
             bitrate=320)
 
     def lookup(self, uri):
