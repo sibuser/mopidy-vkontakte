@@ -65,6 +65,11 @@ Project resources
 Changelog
 =========
 
+v0.1.2 (Beta)
+----------------------------------------
+
+- FIXED: In some cases your token can be expired and you needed to remove a db file manually.
+
 v0.1.1 (UNRELEASED)
 ----------------------------------------
 
