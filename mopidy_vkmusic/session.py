@@ -69,12 +69,11 @@ class VKSession(object):
         self.playlist = None
         if self.expires_in == 0:
             self.login()
-            self.save_session()
         logger.info('Mopidy uses Vkontakte Music')
 
     # Authorization form
     def login(self):
-        logger.info("Login as '%s', self.email")
+        logger.info('Login as %s', self.email)
 
         opener = urllib2.build_opener(
             urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
@@ -102,6 +101,7 @@ class VKSession(object):
         answer = dict(self.split_key_value(kv_pair) for kv_pair in pairs)
         self.token, self.user_id, self.expires_in = answer['access_token'], \
             answer['user_id'], answer['expires_in']
+        self.save_session()
 
     def get_all_songs(self):
         return self.call_api('audio.get', [('uid', self.user_id)], self.token)
