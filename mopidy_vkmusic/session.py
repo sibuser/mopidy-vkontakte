@@ -113,7 +113,16 @@ class VKSession(object):
     def call_api(self, method, params, token):
         params.append(('access_token', self.token))
         url = 'https://api.vk.com/method/%s?%s' % (method, urlencode(params))
-        return json.loads(urllib2.urlopen(url).read())['response']
+        response = json.loads(urllib2.urlopen(url).read())
+        try:
+            return response['response']
+        except KeyError:
+            error_code = response['error']['error_code']
+            if error_code == 5:
+                self.login()
+            else:
+                logger.error(response['error']['error_msg'])
+            return []
 
     # Permission request form
     def give_access(self, doc, opener):
