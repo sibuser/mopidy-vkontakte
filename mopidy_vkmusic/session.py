@@ -79,13 +79,13 @@ class VKSession(object):
             urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
             urllib2.HTTPRedirectHandler())
 
-        response = opener.open(
+        opener_url = (
             'http://oauth.vk.com/oauth/authorize?' +
             'redirect_uri=http://oauth.vk.com/blank.html' +
-            '&response_type=token&client_id=%s' +
-            '&scope=audio&display=wap' % (self.client_id)
-        )
+            '&response_type=token&scope=audio&display=wap' +
+            '&client_id={0}'.format(self.client_id)).encode('utf-8')
 
+        response = opener.open(opener_url)
         doc = response.read()
         parser = FormParser()
         parser.feed(doc)
