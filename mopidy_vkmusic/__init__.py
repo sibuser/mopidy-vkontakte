@@ -17,7 +17,7 @@ https://github.com/sibuser/mopidy-vkmusic/issues
 
 """
 
-__version__ = '0.1.08'
+__version__ = '0.1.1'
 
 
 class Extension(ext.Extension):
