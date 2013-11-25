@@ -14,6 +14,7 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
         super(VKPlaylistsProvider, self).__init__(*args, **kwargs)
         self.config = self.backend.config
         self._playlists = []
+        self.all_lists = {}
         self.refresh()
 
     def create(self, name):
@@ -27,32 +28,50 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
             uri=song['url'],
             name=song['title'],
             artists=[Artist(name=song['artist'].encode('utf-8'))],
-            length=int(song['duration']) * 1000,
-            bitrate=320)
+            length=int(song['duration']) * 1000
+        )
 
     def lookup(self, uri):
-        logger.debug('Resolving with %s', 'VKontakte')
+        return self.all_lists[uri]
 
-        self.backend.session.get_all_songs()
-        if uri:
-            logger.info('Fetching a playlist %s from VKontakte' % uri)
+    def _vk_playlist_to_mopidy(self, playlist):
+        tracks = []
+        logger.info(
+            'Fetching a playlist "%s" from VKontakte'
+            % playlist['title'])
 
-            tracks = []
-
-            for track in self.backend.session.get_all_songs():
-                tracks.append(self._to_mopidy_track(track))
-            return Playlist(
-                uri='vkmusic:mylist',
-                name='Music from VKontakte',
-                tracks=tracks
-            )
+        if playlist['title'] == 'all songs':
+            songs = self.backend.library.get_all_songs()
         else:
-            return []
+            songs = self.backend.library.get_all_songs_from_album(
+                playlist['album_id'])
+
+        for song in songs:
+            tracks.append(self._to_mopidy_track(song))
+
+        return Playlist(
+            uri='vkmusic:' + playlist['title'],
+            name=playlist['title'],
+            tracks=tracks
+        )
 
     def refresh(self):
-        exp = self.lookup('vkontakte')
-        self._playlists.append(exp)
-        logger.info('Loaded %d VKontakte playlist(s)', len(self._playlists))
+        self.all_lists['vkmusic:all songs'] = self._vk_playlist_to_mopidy(
+            {'title': 'all songs'})
+
+        self._playlists.append(self.all_lists['vkmusic:all songs'])
+
+        vk_lists = self.backend.library.get_all_albums()
+        for i in xrange(1, len(vk_lists)):
+            title = 'vkmusic:' + vk_lists[i]['title']
+            self.all_lists[title] = self._vk_playlist_to_mopidy(vk_lists[i])
+            self._playlists.append(self.all_lists[title])
+
+        logger.info(
+            'Loaded' +
+            ' {0} VKontakte playlist(s)'.format(len(self._playlists))
+        )
+
         listener.BackendListener.send('playlists_loaded')
 
     def save(self, playlist):

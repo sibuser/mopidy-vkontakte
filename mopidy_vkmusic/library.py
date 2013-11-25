@@ -20,3 +20,16 @@ class VKLibraryProvider(base.BaseLibraryProvider):
 
     def lookup(self, uri):
         pass
+
+    def get_all_songs_from_album(self, album_id):
+        return self.get_all_songs([('album_id', album_id)])
+
+    def get_all_albums(self):
+        return self.backend.session.call_api('audio.getAlbums')
+
+    def get_all_songs(self, album_id=[]):
+        if album_id:
+            return self.backend.session.call_api(
+                'audio.get', album_id)
+        else:
+            return self.backend.session.call_api('audio.get')

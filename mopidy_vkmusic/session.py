@@ -67,6 +67,7 @@ class VKSession(object):
         self.user_id, self.token, self.expires_in = self.load_session()
 
         self.playlist = None
+
         if self.expires_in == 0:
             self.login()
         logger.info('Mopidy uses Vkontakte Music')
@@ -103,15 +104,17 @@ class VKSession(object):
             answer['user_id'], answer['expires_in']
         self.save_session()
 
-    def get_all_songs(self):
-        return self.call_api('audio.get', [('uid', self.user_id)], self.token)
-
     def split_key_value(self, kv_pair):
         kv = kv_pair.split('=')
         return kv[0], kv[1]
 
-    def call_api(self, method, params, token):
+    def call_api(self, method, param=None):
+        params = []
+        if param:
+            params.extend(param)
+        params.append(('uid', self.user_id))
         params.append(('access_token', self.token))
+
         url = 'https://api.vk.com/method/%s?%s' % (method, urlencode(params))
         response = json.loads(urllib2.urlopen(url).read())
         try:
@@ -119,6 +122,7 @@ class VKSession(object):
         except KeyError:
             error_code = response['error']['error_code']
             if error_code == 5:
+                logger.error(response['error']['error_msg'])
                 self.login()
             else:
                 logger.error(response['error']['error_msg'])
