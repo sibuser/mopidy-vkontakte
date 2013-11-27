@@ -12,7 +12,7 @@ def get_version(filename):
 
 setup(
     name='Mopidy-VKontakte',
-    version=get_version('mopidy_vkmusic/__init__.py'),
+    version=get_version('mopidy_VKontakte/__init__.py'),
     url='https://github.com/sibuser/mopidy-vkontakte',
     license='Apache License, Version 2.0',
     author='Alexey Ulyanov',
@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'vkontakte = mopidy_vkmusic:Extension',
+            'vkontakte = mopidy_VKontakte:Extension',
         ],
     },
     classifiers=[
