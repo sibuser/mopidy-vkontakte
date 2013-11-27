@@ -12,7 +12,7 @@ class ExtensionTest(unittest.TestCase):
 
         config = ext.get_default_config()
 
-        self.assertIn('[vkmusic]', config)
+        self.assertIn('[vkontakte]', config)
         self.assertIn('enabled = true', config)
 
     def test_get_config_schema(self):

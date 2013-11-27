@@ -5,7 +5,7 @@ import logging
 from mopidy.backends import base, listener
 from mopidy.models import Playlist, Track, Artist
 
-logger = logging.getLogger('mopidy.backends.vkmusic.playlists')
+logger = logging.getLogger('mopidy.backends.vkontakte.playlists')
 
 
 class VKPlaylistsProvider(base.BasePlaylistsProvider):
@@ -50,20 +50,20 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
             tracks.append(self._to_mopidy_track(song))
 
         return Playlist(
-            uri='vkmusic:' + playlist['title'],
+            uri='vkontakte:' + playlist['title'],
             name=playlist['title'],
             tracks=tracks
         )
 
     def refresh(self):
-        self.all_lists['vkmusic:all songs'] = self._vk_playlist_to_mopidy(
+        self.all_lists['vkontakte:all songs'] = self._vk_playlist_to_mopidy(
             {'title': 'all songs'})
 
-        self._playlists.append(self.all_lists['vkmusic:all songs'])
+        self._playlists.append(self.all_lists['vkontakte:all songs'])
 
         vk_lists = self.backend.library.get_all_albums()
         for i in xrange(1, len(vk_lists)):
-            title = 'vkmusic:' + vk_lists[i]['title']
+            title = 'vkontakte:' + vk_lists[i]['title']
             self.all_lists[title] = self._vk_playlist_to_mopidy(vk_lists[i])
             self._playlists.append(self.all_lists[title])
 

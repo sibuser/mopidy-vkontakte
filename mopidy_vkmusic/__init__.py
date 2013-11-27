@@ -8,12 +8,12 @@ __doc__ = """An extension for playing music from VKontakte.
 
 This extension enables you to play music from VKontakte web service.
 
-See https://github.com/sibuser/mopidy-vkmusic for further instructions
+See https://github.com/sibuser/mopidy-vkontakte for further instructions
 of using this extension.
 
 **Issues:**
 
-https://github.com/sibuser/mopidy-vkmusic/issues
+https://github.com/sibuser/mopidy-vkontakte/issues
 
 """
 
@@ -22,8 +22,8 @@ __version__ = '0.1.2'
 
 class Extension(ext.Extension):
 
-    dist_name = 'Mopidy-VKMusic'
-    ext_name = 'vkmusic'
+    dist_name = 'Mopidy-VKontakte'
+    ext_name = 'vkontakte'
     version = __version__
 
     def get_default_config(self):
@@ -39,7 +39,7 @@ class Extension(ext.Extension):
         return schema
 
     def validate_config(self, config):
-        if not config.getboolean('vkmusic', 'enabled'):
+        if not config.getboolean('vkontakte', 'enabled'):
             return
 
     def get_backend_classes(self):

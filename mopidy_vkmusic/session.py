@@ -14,7 +14,7 @@ from urllib import urlencode
 from urlparse import urlparse
 from HTMLParser import HTMLParser
 
-logger = logging.getLogger('mopidy.backends.vkmusic.session')
+logger = logging.getLogger('mopidy.backends.vkontakte.session')
 
 
 class FormParser(HTMLParser):
@@ -61,9 +61,9 @@ class VKSession(object):
 
         self.config = config
 
-        self.email = self.config['vkmusic']['email']
-        self.password = self.config['vkmusic']['password']
-        self.client_id = self.config['vkmusic']['client_id']
+        self.email = self.config['vkontakte']['email']
+        self.password = self.config['vkontakte']['password']
+        self.client_id = self.config['vkontakte']['client_id']
         self.user_id, self.token, self.expires_in = self.load_session()
 
         self.playlist = None
@@ -160,7 +160,7 @@ class VKSession(object):
             return expires_in
 
     def load_session(self):
-        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
+        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkontakte.db'
         if self.config_file_check(sessionPath, os.R_OK):
             s = shelve.open(sessionPath, 'r')
             token = s.get('token'.encode('utf-8'), None)
@@ -173,7 +173,7 @@ class VKSession(object):
 
     def save_session(self):
         self.config_dir_check()
-        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkmusic.db'
+        sessionPath = os.environ['HOME'] + '/.config/mopidy/vkontakte.db'
         s = shelve.open(sessionPath, 'c')
         s['token'.encode('utf-8')] = self.token.encode('utf-8')
         s['user_id'.encode('utf-8')] = self.user_id.encode('utf-8')

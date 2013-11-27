@@ -11,13 +11,13 @@ def get_version(filename):
 
 
 setup(
-    name='Mopidy-VKMusic',
+    name='Mopidy-VKontakte',
     version=get_version('mopidy_vkmusic/__init__.py'),
-    url='https://github.com/sibuser/mopidy-vkmusic',
+    url='https://github.com/sibuser/mopidy-vkontakte',
     license='Apache License, Version 2.0',
     author='Alexey Ulyanov',
     author_email='sibuser.nsk@gmail.com',
-    description='Mopidy extension for VKMusic allows \
+    description='Mopidy extension for VKontakte allows \
         to listen to music from VKontakte social network.',
     long_description=open('README.rst').read(),
     packages=find_packages(exclude=['tests', 'tests.*']),
@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'vkmusic = mopidy_vkmusic:Extension',
+            'vkontakte = mopidy_vkmusic:Extension',
         ],
     },
     classifiers=[

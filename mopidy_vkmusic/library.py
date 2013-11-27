@@ -5,7 +5,7 @@ import logging
 from mopidy.backends import base
 # from mopidy.models import SearchResult
 
-logger = logging.getLogger('mopidy.backends.vkmusic.library')
+logger = logging.getLogger('mopidy.backends.vkontakte.library')
 
 
 class VKLibraryProvider(base.BaseLibraryProvider):

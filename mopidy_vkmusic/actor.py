@@ -10,7 +10,7 @@ from .playlists import VKPlaylistsProvider
 from .session import VKSession
 
 
-logger = logging.getLogger('mopidy.backends.vkmusic.actor')
+logger = logging.getLogger('mopidy.backends.vkontakte.actor')
 
 
 class VKBackend(pykka.ThreadingActor, base.Backend):
@@ -23,7 +23,7 @@ class VKBackend(pykka.ThreadingActor, base.Backend):
         self.playback = VKPlaybackProvider(audio=audio, backend=self)
         self.playlists = VKPlaylistsProvider(backend=self)
 
-        self.uri_schemes = ['vkmusic']
+        self.uri_schemes = ['vkontakte']
 
 
 class VKPlaybackProvider(base.BasePlaybackProvider):
