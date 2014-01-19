@@ -4,19 +4,6 @@ import os
 
 from mopidy import config, ext
 
-__doc__ = """An extension for playing music from VKontakte.
-
-This extension enables you to play music from VKontakte web service.
-
-See https://github.com/sibuser/mopidy-vkontakte for further instructions
-of using this extension.
-
-**Issues:**
-
-https://github.com/sibuser/mopidy-vkontakte/issues
-
-"""
-
 __version__ = '0.1.2'
 
 
