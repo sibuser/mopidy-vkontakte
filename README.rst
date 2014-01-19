@@ -18,7 +18,8 @@ Mopidy-VKontakte
    :target: https://coveralls.io/r/sibuser/mopidy-vkontakte?branch=master
    :alt: Test coverage
 
-Mopidy extension for VKontakte allows to listen to music from VKontakte social network."
+`Mopidy <http://www.mopidy.com/>`_ extension for VKontakte allows to listen to
+music from VKontakte social network.
 
 
 Installation
