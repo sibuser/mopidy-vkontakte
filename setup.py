@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'vkontakte = mopidy_VKontakte:Extension',
+            'vkontakte = mopidy_vkontakte:Extension',
         ],
     },
     classifiers=[
