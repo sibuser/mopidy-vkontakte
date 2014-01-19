@@ -60,6 +60,11 @@ Project resources
 Changelog
 =========
 
+v0.2.0 (UNRELEASED)
+-------------------
+
+- Require Mopidy >= 0.18.
+
 v0.1.2 (2013-11-27)
 -------------------
 
