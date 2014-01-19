@@ -24,6 +24,6 @@ class Extension(ext.Extension):
         schema['client_id'] = config.Secret()
         return schema
 
-    def get_backend_classes(self):
+    def setup(self, registry):
         from .actor import VKBackend
-        return [VKBackend]
+        registry.add('backend', VKBackend)

@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import mock
 import unittest
 
 from mopidy_vkontakte import Extension, actor as backend_lib
@@ -27,8 +28,9 @@ class ExtensionTest(unittest.TestCase):
         self.assertIn('password', schema)
 
     def test_get_backend_classes(self):
+        registry = mock.Mock()
+
         ext = Extension()
+        ext.setup(registry)
 
-        backends = ext.get_backend_classes()
-
-        self.assertIn(backend_lib.VKBackend, backends)
+        registry.add.assert_called_once_with('backend', backend_lib.VKBackend)
