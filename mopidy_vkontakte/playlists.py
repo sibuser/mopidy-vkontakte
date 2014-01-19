@@ -2,13 +2,13 @@ from __future__ import unicode_literals
 
 import logging
 
-from mopidy.backends import base, listener
+from mopidy import backend
 from mopidy.models import Playlist, Track, Artist
 
 logger = logging.getLogger('mopidy.backends.vkontakte.playlists')
 
 
-class VKPlaylistsProvider(base.BasePlaylistsProvider):
+class VKPlaylistsProvider(backend.PlaylistsProvider):
 
     def __init__(self, *args, **kwargs):
         super(VKPlaylistsProvider, self).__init__(*args, **kwargs)
@@ -72,7 +72,7 @@ class VKPlaylistsProvider(base.BasePlaylistsProvider):
             ' {0} VKontakte playlist(s)'.format(len(self._playlists))
         )
 
-        listener.BackendListener.send('playlists_loaded')
+        backend.BackendListener.send('playlists_loaded')
 
     def save(self, playlist):
         pass  # TODO
