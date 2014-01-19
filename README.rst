@@ -3,11 +3,11 @@ Mopidy-VKontakte
 ****************************
 
 .. image:: https://pypip.in/v/Mopidy-VKontakte/badge.png
-    :target: https://crate.io/packages/Mopidy-VKontakte/
+    :target: https://pypi.python.org/pypi/Mopidy-VKontakte/
     :alt: Latest PyPI version
 
 .. image:: https://pypip.in/d/Mopidy-VKontakte/badge.png
-    :target: https://crate.io/packages/Mopidy-VKontakte/
+    :target: https://pypi.python.org/pypi/Mopidy-VKontakte/
     :alt: Number of PyPI downloads
 
 .. image:: https://travis-ci.org/sibuser/mopidy-vkontakte.png?branch=master
