@@ -14,6 +14,9 @@ class ExtensionTest(unittest.TestCase):
 
         self.assertIn('[vkontakte]', config)
         self.assertIn('enabled = true', config)
+        self.assertIn('email =', config)
+        self.assertIn('password =', config)
+        self.assertIn('client_id = 4003293', config)
 
     def test_get_config_schema(self):
         ext = Extension()
