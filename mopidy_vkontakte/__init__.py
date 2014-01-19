@@ -22,12 +22,7 @@ class Extension(ext.Extension):
         schema['email'] = config.String()
         schema['password'] = config.Secret()
         schema['client_id'] = config.Secret()
-
         return schema
-
-    def validate_config(self, config):
-        if not config.getboolean('vkontakte', 'enabled'):
-            return
 
     def get_backend_classes(self):
         from .actor import VKBackend
