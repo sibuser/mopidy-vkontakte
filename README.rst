@@ -1,6 +1,6 @@
-****************************
+****************
 Mopidy-VKontakte
-****************************
+****************
 
 .. image:: https://pypip.in/v/Mopidy-VKontakte/badge.png
     :target: https://pypi.python.org/pypi/Mopidy-VKontakte/
@@ -36,23 +36,17 @@ Or, if available, install the Debian/Ubuntu package from `apt.mopidy.com
 Configuration
 =============
 
-Before starting Mopidy, you must add configuration for
-Mopidy-VKontakte to your Mopidy configuration file::
-
-    [vkontakte]
-    email    = your_email@maild_domen.com or phone number
-    password = secret
-    client_id = optional
-
 #. You must register for a user account at http://www.vk.com/
 
 #. Add the email and password to the ``mopidy.conf`` config file::
 
-#. Hence VKontakte has only one playlist you can add and remove songs only from it.
+    [vkontakte]
+    email = your_email@maild_domen.com or phone number
+    password = secret
+    client_id = optional
 
-
-
-
+#. Hence VKontakte has only one playlist you can add and remove songs only from
+   it.
 
 
 Project resources
@@ -66,17 +60,17 @@ Project resources
 Changelog
 =========
 
-v0.1.2 (Beta)
-----------------------------------------
+v0.1.2 (2013-11-27)
+-------------------
 
 - FIXED: In some cases your token can be expired and you needed to remove a db file manually.
 
 v0.1.1 (UNRELEASED)
-----------------------------------------
+-------------------
 
 - Code style fixed. Setup a test cover system.
 
 v0.1.0 (UNRELEASED)
-----------------------------------------
+-------------------
 
 - Initial release.
