@@ -10,7 +10,7 @@ from .playlists import VKPlaylistsProvider
 from .session import VKSession
 
 
-logger = logging.getLogger('mopidy.backends.vkontakte.actor')
+logger = logging.getLogger(__name__)
 
 
 class VKBackend(pykka.ThreadingActor, backend.Backend):

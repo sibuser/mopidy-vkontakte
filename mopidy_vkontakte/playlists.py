@@ -5,7 +5,7 @@ import logging
 from mopidy import backend
 from mopidy.models import Playlist, Track, Artist
 
-logger = logging.getLogger('mopidy.backends.vkontakte.playlists')
+logger = logging.getLogger(__name__)
 
 
 class VKPlaylistsProvider(backend.PlaylistsProvider):

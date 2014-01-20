@@ -4,7 +4,7 @@ import logging
 
 from mopidy import backend
 
-logger = logging.getLogger('mopidy.backends.vkontakte.library')
+logger = logging.getLogger(__name__)
 
 
 class VKLibraryProvider(backend.LibraryProvider):
