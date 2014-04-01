@@ -2,13 +2,12 @@ from __future__ import unicode_literals
 
 import logging
 
-from mopidy.backends import base
-# from mopidy.models import SearchResult
+from mopidy import backend
 
-logger = logging.getLogger('mopidy.backends.vkontakte.library')
+logger = logging.getLogger(__name__)
 
 
-class VKLibraryProvider(base.BaseLibraryProvider):
+class VKLibraryProvider(backend.LibraryProvider):
     def __init__(self, *args, **kwargs):
         super(VKLibraryProvider, self).__init__(*args, **kwargs)
 

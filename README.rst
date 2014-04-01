@@ -1,13 +1,13 @@
-****************************
+****************
 Mopidy-VKontakte
-****************************
+****************
 
 .. image:: https://pypip.in/v/Mopidy-VKontakte/badge.png
-    :target: https://crate.io/packages/Mopidy-VKontakte/
+    :target: https://pypi.python.org/pypi/Mopidy-VKontakte/
     :alt: Latest PyPI version
 
 .. image:: https://pypip.in/d/Mopidy-VKontakte/badge.png
-    :target: https://crate.io/packages/Mopidy-VKontakte/
+    :target: https://pypi.python.org/pypi/Mopidy-VKontakte/
     :alt: Number of PyPI downloads
 
 .. image:: https://travis-ci.org/sibuser/mopidy-vkontakte.png?branch=master
@@ -18,7 +18,8 @@ Mopidy-VKontakte
    :target: https://coveralls.io/r/sibuser/mopidy-vkontakte?branch=master
    :alt: Test coverage
 
-Mopidy extension for VKontakte allows to listen to music from VKontakte social network."
+`Mopidy <http://www.mopidy.com/>`_ extension for VKontakte allows to listen to
+music from VKontakte social network.
 
 
 Installation
@@ -35,23 +36,17 @@ Or, if available, install the Debian/Ubuntu package from `apt.mopidy.com
 Configuration
 =============
 
-Before starting Mopidy, you must add configuration for
-Mopidy-VKontakte to your Mopidy configuration file::
-
-    [vkontakte]
-    email    = your_email@maild_domen.com or phone number
-    password = secret
-    client_id = optional
-
 #. You must register for a user account at http://www.vk.com/
 
 #. Add the email and password to the ``mopidy.conf`` config file::
 
-#. Hence VKontakte has only one playlist you can add and remove songs only from it.
+    [vkontakte]
+    email = your_email@maild_domen.com or phone number
+    password = secret
+    client_id = optional
 
-
-
-
+#. Hence VKontakte has only one playlist you can add and remove songs only from
+   it.
 
 
 Project resources
@@ -65,17 +60,25 @@ Project resources
 Changelog
 =========
 
-v0.1.2 (Beta)
-----------------------------------------
+v0.2.0 (UNRELEASED)
+-------------------
+
+- Require Mopidy >= 0.18.
+
+- Fixed: ``ext.conf`` was missing from the PyPI package, stopping Mopidy from
+  working as long as Mopidy-VKontakte is installed.
+
+v0.1.2 (2013-11-27)
+-------------------
 
 - FIXED: In some cases your token can be expired and you needed to remove a db file manually.
 
 v0.1.1 (UNRELEASED)
-----------------------------------------
+-------------------
 
 - Code style fixed. Setup a test cover system.
 
 v0.1.0 (UNRELEASED)
-----------------------------------------
+-------------------
 
 - Initial release.

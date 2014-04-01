@@ -25,7 +25,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'setuptools',
-        'Mopidy >= 0.14',
+        'Mopidy >= 0.18',
         'Pykka >= 1.1',
     ],
     test_suite='nose.collector',
@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'vkontakte = mopidy_VKontakte:Extension',
+            'vkontakte = mopidy_vkontakte:Extension',
         ],
     },
     classifiers=[

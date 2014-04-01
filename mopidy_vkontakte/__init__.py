@@ -4,19 +4,6 @@ import os
 
 from mopidy import config, ext
 
-__doc__ = """An extension for playing music from VKontakte.
-
-This extension enables you to play music from VKontakte web service.
-
-See https://github.com/sibuser/mopidy-vkontakte for further instructions
-of using this extension.
-
-**Issues:**
-
-https://github.com/sibuser/mopidy-vkontakte/issues
-
-"""
-
 __version__ = '0.1.2'
 
 
@@ -35,13 +22,8 @@ class Extension(ext.Extension):
         schema['email'] = config.String()
         schema['password'] = config.Secret()
         schema['client_id'] = config.Secret()
-
         return schema
 
-    def validate_config(self, config):
-        if not config.getboolean('vkontakte', 'enabled'):
-            return
-
-    def get_backend_classes(self):
+    def setup(self, registry):
         from .actor import VKBackend
-        return [VKBackend]
+        registry.add('backend', VKBackend)

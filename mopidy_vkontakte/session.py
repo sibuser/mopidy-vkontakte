@@ -14,7 +14,7 @@ from urllib import urlencode
 from urlparse import urlparse
 from HTMLParser import HTMLParser
 
-logger = logging.getLogger('mopidy.backends.vkontakte.session')
+logger = logging.getLogger(__name__)
 
 
 class FormParser(HTMLParser):
