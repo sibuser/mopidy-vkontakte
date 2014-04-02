@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from mopidy import backend
+from mopidy import backend, models
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +10,11 @@ logger = logging.getLogger(__name__)
 class VKLibraryProvider(backend.LibraryProvider):
     def __init__(self, *args, **kwargs):
         super(VKLibraryProvider, self).__init__(*args, **kwargs)
+
+    root_directory = models.Ref.directory(
+        uri='vkontakte:directory',
+        name='VKontakte'
+    )
 
     def find_exact(self, **query):
         pass
