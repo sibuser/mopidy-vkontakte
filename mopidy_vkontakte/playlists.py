@@ -27,7 +27,7 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
         return Track(
             uri=song['url'],
             name=song['title'],
-            artists=[Artist(name=song['artist'].encode('utf-8'))],
+            artists=[Artist(name=song['artist'])],
             length=int(song['duration']) * 1000
         )
 
