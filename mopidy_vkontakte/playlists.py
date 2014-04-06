@@ -18,9 +18,13 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
         self.refresh()
 
     def create(self, name):
+        print('Playlist create')
+
         pass
 
     def delete(self, uri):
+        logger.debug('Playlist delete')
+
         pass
 
     def _to_mopidy_track(self, song):
@@ -32,20 +36,21 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
         )
 
     def lookup(self, uri):
+        logger.debug('Playlist lookup for ' + uri)
         return self.all_lists[uri]
 
     def _vk_playlist_to_mopidy(self, playlist):
-        tracks = []
         logger.info(
             'Fetching a playlist "%s" from VKontakte'
             % playlist['title'])
 
-        if playlist['title'] == 'all songs':
+        if playlist['title'] == 'all_songs':
             songs = self.backend.library.get_all_songs()
         else:
             songs = self.backend.library.get_all_songs_from_album(
                 playlist['album_id'])
 
+        tracks = []
         for song in songs:
             tracks.append(self._to_mopidy_track(song))
 
@@ -55,11 +60,12 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
             tracks=tracks
         )
 
-    def refresh(self):
-        self.all_lists['vkontakte:all songs'] = self._vk_playlist_to_mopidy(
-            {'title': 'all songs'})
 
-        self._playlists.append(self.all_lists['vkontakte:all songs'])
+    def refresh(self):
+        self.all_lists['vkontakte:all_songs'] = self._vk_playlist_to_mopidy(
+            {'title': 'all_songs'})
+
+        self._playlists.append(self.all_lists['vkontakte:all_songs'])
 
         vk_lists = self.backend.library.get_all_albums()
         for i in xrange(1, len(vk_lists)):
@@ -71,8 +77,9 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
             'Loaded' +
             ' {0} VKontakte playlist(s)'.format(len(self._playlists))
         )
+        self.backend.library.generate_folders(self.all_lists)
 
         backend.BackendListener.send('playlists_loaded')
 
     def save(self, playlist):
-        pass  # TODO
+        pass
