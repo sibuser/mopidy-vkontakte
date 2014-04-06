@@ -60,6 +60,13 @@ Project resources
 Changelog
 =========
 
+v0.3.0 (UNRELEASED)
+-------------------
+
+- Fixed a problem if a client requires folders instead of playlists
+- Added search functionality but only if you want to find something in vkontakte but not in you library
+- Fixed some small issues
+
 v0.2.0 (UNRELEASED)
 -------------------
 
