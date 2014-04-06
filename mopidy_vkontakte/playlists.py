@@ -60,7 +60,6 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
             tracks=tracks
         )
 
-
     def refresh(self):
         self.all_lists['vkontakte:all_songs'] = self._vk_playlist_to_mopidy(
             {'title': 'all_songs'})

@@ -50,7 +50,9 @@ class VKLibraryProvider(backend.LibraryProvider):
     def browse(self, uri):
 
         if not self.vfs.get(uri):
-            return self.tracklist_to_vfs(self.backend.playlists.all_lists['vkontakte:' + uri.split(':')[2]].tracks)
+            return self.tracklist_to_vfs(
+                self.backend.playlists.all_lists['vkontakte:' +
+                                                 uri.split(':')[2]].tracks)
         return self.vfs.get(uri, {}).values()
 
     def search(self, **query):
@@ -68,14 +70,18 @@ class VKLibraryProvider(backend.LibraryProvider):
                 tracks=tracks
             )
         else:
-            logger.info('Searching Vkontakte in playlists for \'%s\'', search_query)
+            logger.info('Searching Vkontakte in playlists for \'%s\'',
+                        search_query)
 
     def lookup(self, uri=None):
         return self.backend.playlists.all_lists
 
     def _search(self, query):
-        return self.backend.session.call_api('audio.search', [('q', query), ('auto_complete', 1), ('count', 170),
-                                                              ('performer_only1', 1)])
+        return self.backend.session.call_api('audio.search', [
+            ('q', query),
+            ('auto_complete', 1),
+            ('count', 170),
+            ('performer_only1', 1)])
 
     def get_all_songs_from_album(self, album_id):
         return self.get_all_songs([('album_id', album_id)])
