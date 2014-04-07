@@ -4,7 +4,7 @@ import logging
 
 from mopidy import backend
 from mopidy.models import Playlist, Track, Artist
-
+from urllib import unquote
 logger = logging.getLogger(__name__)
 
 
@@ -30,8 +30,8 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
     def _to_mopidy_track(self, song):
         return Track(
             uri=song['url'],
-            name=song['title'],
-            artists=[Artist(name=song['artist'])],
+            name=unquote(song['title']),
+            artists=[Artist(name=unquote(song['artist']))],
             length=int(song['duration']) * 1000
         )
 

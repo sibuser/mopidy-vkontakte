@@ -78,10 +78,11 @@ class VKLibraryProvider(backend.LibraryProvider):
 
     def _search(self, query):
         return self.backend.session.call_api('audio.search', [
-            ('q', query),
+            ('q', query.encode('utf8')),
             ('auto_complete', 1),
-            ('count', 170),
-            ('performer_only1', 1)])
+            ('count', 200),
+            ('performer_only1', 1)
+        ])
 
     def get_all_songs_from_album(self, album_id):
         return self.get_all_songs([('album_id', album_id)])
