@@ -98,4 +98,5 @@ class VKLibraryProvider(backend.LibraryProvider):
             return self.backend.session.call_api('audio.get')
 
     def generate_uri(self, path):
-        return 'vkontakte:directory:%s' % urllib.quote('/'.join(path))
+        path_utf8 = [x.encode('utf8') for x in path]
+        return 'vkontakte:directory:%s' % urllib.quote('/'.join(path_utf8))
