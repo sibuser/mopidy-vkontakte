@@ -60,6 +60,10 @@ Project resources
 Changelog
 =========
 
+v0.3.1 (UNRELEASED)
+-------------------
+- Fixed the encoding issue
+
 v0.3.0 (UNRELEASED)
 -------------------
 
