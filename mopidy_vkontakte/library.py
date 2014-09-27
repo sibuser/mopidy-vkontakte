@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import logging
@@ -98,5 +99,4 @@ class VKLibraryProvider(backend.LibraryProvider):
             return self.backend.session.call_api('audio.get')
 
     def generate_uri(self, path):
-        path_utf8 = [x.encode('utf8') for x in path]
-        return 'vkontakte:directory:%s' % urllib.quote('/'.join(path_utf8))
+        return 'vkontakte:directory:%s' % urllib.quote(''.join(path).encode('utf-8'))
