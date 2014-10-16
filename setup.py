@@ -10,6 +10,15 @@ def get_version(filename):
     return metadata['version']
 
 
+def get_requirements():
+    with open('requirements.txt', 'r') as f:
+        return [l.rstrip() for l in f.readlines()]
+
+
+def get_test_requirements():
+    with open('test-requirements.txt', 'r') as f:
+        return [l.rstrip() for l in f.readlines()]
+
 setup(
     name='Mopidy-VKontakte',
     version=get_version('mopidy_vkontakte/__init__.py'),
@@ -23,16 +32,9 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     zip_safe=False,
     include_package_data=True,
-    install_requires=[
-        'setuptools',
-        'Mopidy >= 0.18',
-        'Pykka >= 1.1',
-    ],
+    install_requires=get_requirements(),
     test_suite='nose.collector',
-    tests_require=[
-        'nose',
-        'mock >= 1.0',
-    ],
+    tests_require=get_test_requirements(),
     entry_points={
         'mopidy.ext': [
             'vkontakte = mopidy_vkontakte:Extension',
