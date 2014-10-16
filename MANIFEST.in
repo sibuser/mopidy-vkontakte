@@ -2,6 +2,6 @@ include .travis.yml
 include LICENSE
 include MANIFEST.in
 include README.rst
-include mopidy/vkontakte/ext.conf
+include mopidy/vkontakte/default.conf
 
 recursive-include tests *.py
