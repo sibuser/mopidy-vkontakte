@@ -21,7 +21,7 @@ def get_test_requirements():
 
 setup(
     name='Mopidy-VKontakte',
-    version=get_version('mopidy_vkontakte/__init__.py'),
+    version=get_version('mopidy/vkontakte/__init__.py'),
     url='https://github.com/sibuser/mopidy-vkontakte',
     license='Apache License, Version 2.0',
     author='Alexey Ulyanov',
@@ -37,7 +37,7 @@ setup(
     tests_require=get_test_requirements(),
     entry_points={
         'mopidy.ext': [
-            'vkontakte = mopidy_vkontakte:Extension',
+            'vkontakte = mopidy.vkontakte:Extension',
         ],
     },
     classifiers=[

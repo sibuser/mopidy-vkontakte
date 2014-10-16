@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import mock
 import unittest
 
-from mopidy_vkontakte import Extension, actor as backend_lib
+from mopidy.vkontakte import Extension, actor as backend_lib
 
 
 class ExtensionTest(unittest.TestCase):
