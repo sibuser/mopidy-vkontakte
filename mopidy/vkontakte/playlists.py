@@ -21,7 +21,7 @@ class VKPlaylistsProvider(backend.PlaylistsProvider):
         self.refresh()
 
     def create(self, name):
-        print('Playlist create')
+        logger.debug('Playlist create')
 
         pass
 
