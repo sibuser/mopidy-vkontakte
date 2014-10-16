@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 import logging
@@ -6,6 +7,7 @@ import logging
 from mopidy import backend
 from mopidy.models import Playlist, Track, Artist
 from urllib import unquote
+
 logger = logging.getLogger(__name__)
 
 
