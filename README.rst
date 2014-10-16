@@ -60,36 +60,37 @@ Project resources
 Changelog
 =========
 
-v0.3.1 (UNRELEASED)
--------------------
+v0.3.1
+------
 - Fixed the encoding issue
 
-v0.3.0 (UNRELEASED)
--------------------
+v0.3.0
+------
 
 - Fixed a problem if a client requires folders instead of playlists
 - Added search functionality but only if you want to find something in vkontakte but not in you library
 - Fixed some small issues
 
-v0.2.0 (UNRELEASED)
--------------------
+v0.2.0
+------
 
 - Require Mopidy >= 0.18.
 
 - Fixed: ``ext.conf`` was missing from the PyPI package, stopping Mopidy from
   working as long as Mopidy-VKontakte is installed.
 
-v0.1.2 (2013-11-27)
--------------------
+v0.1.2
+------
 
-- FIXED: In some cases your token can be expired and you needed to remove a db file manually.
+- Released @ 2013-11-27
+- Fixed: In some cases your token can be expired and you needed to remove a db file manually.
 
-v0.1.1 (UNRELEASED)
--------------------
+v0.1.1
+------
 
 - Code style fixed. Setup a test cover system.
 
-v0.1.0 (UNRELEASED)
--------------------
+v0.1.0
+------
 
 - Initial release.
